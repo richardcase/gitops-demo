@@ -1,0 +1,22 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: guestbook-dev
+  namespace: dev
+  annotations:
+    fluxcd.io/automated: "true"
+    filter.fluxcd.io/chart-image: glob:dev-*
+spec:
+  releaseName: guestbook-dev
+  chart:
+    git: git@github.com:richardcase/gitops-demo.git
+    path: charts/guestbook
+    ref: master
+  values:
+    redis:
+      master:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
